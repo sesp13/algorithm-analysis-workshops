@@ -1,32 +1,26 @@
-from itertools import permutations
+from itertools import product, repeat
 
 
 def getBestScore(scoresArr):
     bestScore = 0
     arrLength = len(scoresArr)
-    for i in range(arrLength):
-        # Create basic combination of 1 and zeros
-        negativeArr = [0] * i
-        finalArr = [1] * (arrLength - i)
-        finalArr.extend(negativeArr)
-        # Permute the finalArr
-        finalPermuted = permutations(finalArr)
-        # Check every case
-        for caseArr in finalPermuted:
-            score = 0
-            for j in range(arrLength):
-                if(j == 0):
-                    # Check first case
-                    score = scoresArr[0] if caseArr[0] == 1 else score
-                elif(caseArr[j] == 1):
-                    # Common cases
-                    if(caseArr[j - 1] == 1):
-                        score = score + scoresArr[j] - scoresArr[j-1]
-                    else:
-                        score += scoresArr[j]
+    items = [0, 1]
+    itemsCombinated = product(items, repeat=arrLength)
+    for caseArr in itemsCombinated:
+        score = 0
+        for i in range(arrLength):
+            if(i == 0):
+                # Check first case
+                score = scoresArr[0] if caseArr[0] == 1 else score
+            elif(caseArr[i] == 1):
+                # Common cases
+                if(caseArr[i - 1] == 1):
+                    score = score + scoresArr[i] - scoresArr[i-1]
+                else:
+                    score += scoresArr[i]
 
-            # Update best score
-            bestScore = score if score > bestScore else bestScore
+        # Update best score
+        bestScore = score if score > bestScore else bestScore
 
     print(bestScore)
 
