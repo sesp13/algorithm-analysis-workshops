@@ -1,4 +1,4 @@
-from itertools import product, repeat
+from itertools import product
 
 
 def getBestScore(scoresArr):
