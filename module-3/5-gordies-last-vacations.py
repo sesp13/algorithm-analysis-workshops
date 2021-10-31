@@ -23,7 +23,7 @@ def getDayVisits(dayArr):
             diff = task[0] - currentFinishTime
             if(diff >= 0):
                 count += 1
-                currentFinishTime += task[1] + diff
+                currentFinishTime = task[1]
 
     return count
 
