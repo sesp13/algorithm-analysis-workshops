@@ -1,0 +1,10 @@
+1
+8
+sabado 7:00 65 
+sabado 8:05 70
+sabado 9:20 80
+sabado 10:40 90
+domingo 9:00 50
+domingo 10:10 80
+domingo 16:15 28
+lunes 9:00 365
