@@ -6,9 +6,10 @@ def getMinKidCryTime(caseArr):
     kidsArr = sorted(caseArr[1], key=lambda x: x[1], reverse=True)
 
     # Create distro arr with the times -1 is an empty position
-    # This arr will be filled with kid's penalty
+    # This arr will be filled with 1 if a child gets teh position
     distroArr = [-1] * kids
 
+    # Set cry time var
     cryTime = 0
 
     for kid in kidsArr:
