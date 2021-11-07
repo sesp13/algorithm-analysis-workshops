@@ -1,28 +1,33 @@
 def getMaxBeverages(capArr):
     beverages = 0
-
     capArr = sorted(capArr)
-
     while True:
-        firstCap = capArr[0]
+        biggestCapIndex = len(capArr) - 1
+        biggestCap = capArr[biggestCapIndex]
         combinationFound = False
         newArr = []
-        for i in range(1, len(capArr)):
+        for i in range(biggestCapIndex):
             currentCap = capArr[i]
-            if(firstCap + currentCap >= 1000):
-                # Valid sum remove both of them
-                newArr = capArr[1:]
+            if(biggestCap + currentCap >= 1000):
+                # Build next array
+                newArr = capArr
+                # Remove current item
+                newArr.pop(i)
+                # Remove last item
+                newArr.pop()
+                # Increment beverages count
                 beverages += 1
-                del newArr[i - 1]
                 combinationFound = True
                 break
 
-        if not (combinationFound):
-            newArr = capArr[1:]
-
-        capArr = newArr
-
-        if(len(capArr) == 0):
+        if (combinationFound):
+            # If the new arr is empty break
+            if(len(newArr) == 0):
+                break
+            # Set array for the next cycle
+            capArr = newArr
+        else:
+            # If there are not any combinations end the cycle
             break
 
     print(beverages)
