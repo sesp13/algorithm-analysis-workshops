@@ -10,9 +10,7 @@ def getMaxBeverages(capArr):
             currentCap = capArr[i]
             if(biggestCap + currentCap >= 1000):
                 # Build next array
-                newArr = capArr
-                # Remove current item
-                newArr.pop(i)
+                newArr = capArr[i + 1:]
                 # Remove last item
                 newArr.pop()
                 # Increment beverages count
