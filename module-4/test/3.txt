@@ -1,0 +1,30 @@
+1 + 2 = 3
+3 + 3 = 6
+4 + 5 = 9
+6 + 6 = 12
+9 + 12 = 21
+
+---------------
+Third step
+Sum the 2 youngest
+4 + 5 = 9
+1. Sum 9 to the global costs -> 9 + 9 = 18
+2. Add 9 to PQ
+the PQ now looks like this [6, 6, 9]
+
+---------------
+Fourth step
+Sum the 2 youngest
+6 + 6 = 12
+1. Sum 12 to the global costs -> 18 + 12 = 30
+2. Add 12 to PQ
+the PQ now looks like this [9, 12]
+
+---------------
+Fifth step
+Sum the 2 youngest
+9 + 12 = 21
+1. Sum 21 to the global costs -> 30 + 21 = 51
+2. Add 21 to PQ
+the PQ now looks like this [21]
+
