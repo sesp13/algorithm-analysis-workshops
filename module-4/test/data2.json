@@ -1,0 +1,8 @@
+[
+  { "char": "A", "code": "0" },
+  { "char": "C", "code": "100" },
+  { "char": "B", "code": "101" },
+  { "char": "F", "code": "1100" },
+  { "char": "E", "code": "1101" },
+  { "char": "D", "code": "111" }
+]

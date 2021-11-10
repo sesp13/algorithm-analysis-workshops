@@ -1,0 +1,25 @@
+{
+  "left": { "char": "A", "left": -1, "right": -1, "digit": 0 },
+  "right": {
+    "left": {
+      "left": { "char": "C", "left": -1, "right": -1, "digit": 0 },
+      "right": { "char": "B", "left": -1, "right": -1, "digit": 1 },
+      "char": "CB",
+      "digit": 0
+    },
+    "right": {
+      "left": {
+        "left": { "char": "F", "left": -1, "right": -1, "digit": 0 },
+        "right": { "char": "E", "left": -1, "right": -1, "digit": 1 },
+        "char": "FE",
+        "digit": 0
+      },
+      "right": { "char": "D", "left": -1, "right": -1, "digit": 1 },
+      "char": "FED",
+      "digit": 1
+    },
+    "char": "CBFED",
+    "digit": 1
+  },
+  "char": "ACBFED"
+}
