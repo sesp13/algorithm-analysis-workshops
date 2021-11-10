@@ -30,43 +30,47 @@ def compressAlphabet(numberOfChars, alphabetArr):
     heapq.heapify(queue)
 
     # Create all nodes for the tree
-    for letter in alphabetArr:
-        node = [-1, -1]
+    for i in range(numberOfChars):
+        letter = alphabetArr[i]
+        node = [-1, i, -1]
         dictObject = {}
         dictObject['char'] = letter[0]
         dictObject['left'] = -1
         dictObject['right'] = -1
 
         # Build Node
+        # [0: frecuency, 1: i counter this is used to solve ties in heapq, 2: structure]
         node[0] = letter[1]
-        node[1] = dictObject
+        node[2] = dictObject
 
         # Add node to the queue
         heapq.heappush(queue, node)
 
     # Begin the filter of the tree
     for _ in range(numberOfChars - 1):
-        node = [-1, -1]
+        node = [-1, -1, -1]
         dictObject = {}
         nodeLeft = heapq.heappop(queue)
         nodeRight = heapq.heappop(queue)
-        nodeLeft[1]['digit'] = '0'
-        nodeRight[1]['digit'] = '1'
-        dictObject['left'] = nodeLeft[1]
-        dictObject['right'] = nodeRight[1]
+        nodeLeft[2]['digit'] = '0'
+        nodeRight[2]['digit'] = '1'
+        dictObject['left'] = nodeLeft[2]
+        dictObject['right'] = nodeRight[2]
         dictObject['char'] = dictObject['left']['char'] + \
             dictObject['right']['char']
         newFrecuency = nodeLeft[0] + nodeRight[0]
 
         # Build new node
+        # [0: frecuency, 1: right counter (which is bigger) this is used to solve ties in heapq, 2: structure]
         node[0] = newFrecuency
-        node[1] = dictObject
+        node[1] = nodeRight[1]
+        node[2] = dictObject
 
         # Add node to the queue
         heapq.heappush(queue, node)
 
     # Get decision tree
-    tree = heapq.heappop(queue)[1]
+    tree = heapq.heappop(queue)[2]
 
     iterateTree('', tree['left'])
     iterateTree('', tree['right'])
