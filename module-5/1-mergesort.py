@@ -29,6 +29,7 @@ def merge(leftArr, rightArr, length):
 
 
 def mergeSort(arr, length):
+    length = length if(length == len(arr)) else len(arr)
     if(length > 1):
         newLength = int(length/2)
         leftArr = arr[0:newLength]
