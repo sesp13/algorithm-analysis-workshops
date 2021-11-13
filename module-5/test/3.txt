@@ -1,0 +1,12 @@
+3 2
+3
+1
+4
+
+Error de ejecución
+
+Detalles: MemoryError During handling of the above exception, 
+another exception occurred: 
+Traceback (most recent call last): File "/home/forge/code.ticademia.com/storage/app/Main.py", 
+line 23, in main() File "/home/forge/code.ticademia.com/storage/app/Main.py", 
+line 20, in main findTheKPair(numbers, numbersLst, kIndex) MemoryError
