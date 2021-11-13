@@ -3,28 +3,27 @@ from bisect import bisect_left
 
 def findPerfectPair(dbLength, db, numberToSearch):
     index = bisect_left(db, numberToSearch)
-    if(index != dbLength and db[index] == numberToSearch):
+    if(index == dbLength):
+        previousNumber = db[index - 1]
+        print("la pareja mas cercana mide {}".format(previousNumber))
+    elif(db[index] == numberToSearch):
         print("hay por lo menos una pareja perfecta")
+    elif(index == 0):
+        nextNumber = db[index]
+        print("la pareja mas cercana mide {}".format(nextNumber))
     else:
-        if(index == 0):
-            nextNumber = db[index]
-            print("la pareja mas cercana mide {}".format(nextNumber))
-        elif(index == dbLength):
-            previousNumber = db[index - 1]
+        nextNumber = db[index]
+        nextDifference = abs(numberToSearch - nextNumber)
+        prevIndex = index - 1
+        previousNumber = db[prevIndex]
+        previousDifference = abs(numberToSearch - previousNumber)
+        if(previousDifference < nextDifference):
             print("la pareja mas cercana mide {}".format(previousNumber))
+        elif(previousDifference > nextDifference):
+            print("la pareja mas cercana mide {}".format(nextNumber))
         else:
-            nextNumber = db[index]
-            nextDifference = abs(numberToSearch - nextNumber)
-            prevIndex = index - 1
-            previousNumber = db[prevIndex]
-            previousDifference = abs(numberToSearch - previousNumber)
-            if(previousDifference < nextDifference):
-                print("la pareja mas cercana mide {}".format(previousNumber))
-            elif(previousDifference > nextDifference):
-                print("la pareja mas cercana mide {}".format(nextNumber))
-            else:
-                print("las parejas mas cercanas miden {} y {}".format(
-                    previousNumber, nextNumber))
+            print("las parejas mas cercanas miden {} y {}".format(
+                previousNumber, nextNumber))
 
 
 def main():
