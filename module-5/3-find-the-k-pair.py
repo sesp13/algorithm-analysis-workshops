@@ -1,12 +1,11 @@
-def findTheKPair(numbers, numbersLst, kIndex):
-    kIndex -= 1
+def findTheKPair(numbersLength, numbersLst, kIndex):
     numbersLst = sorted(numbersLst)
-    db = []
-    for i in numbersLst:
-        for j in numbersLst:
-            db.append([i, j])
-    selected = db[kIndex]
-    print("{} {}".format(selected[0], selected[1]))
+    numbersLowerThanK, numbersPending = divmod(kIndex, numbersLength)
+    numbersLowerThanK = numbersLowerThanK - 1 if(numbersPending == 0) else numbersLowerThanK
+    numbersPending -= 1
+    base = numbersLst[numbersLowerThanK]
+    sencondPair = numbersLst[numbersPending]
+    print("{} {}".format(base, sencondPair))
 
 
 def main():
