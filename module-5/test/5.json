@@ -1,0 +1,12 @@
+{
+  "T1": {
+    "E2": [
+      { "result": "I", "minutes": 10 },
+      { "result": "C", "minutes": 21 }
+    ],
+    "number": 1,
+    "E1": [{ "result": "C", "minutes": 25 }]
+  },
+  "T2": { "E1": [{ "result": "C", "minutes": 11 }], "number": 2 },
+  "T3": { "E1": [{ "result": "I", "minutes": 30 }], "number": 3 }
+}
