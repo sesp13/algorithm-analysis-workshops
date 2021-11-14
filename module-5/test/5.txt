@@ -87,3 +87,21 @@ maraton 2
 maraton 3
 200 1 20
 300 1 30
+
+El código ha fallado para el siguiente caso:
+3
+4
+100 1 10 I
+200 1 20 I
+300 1 30 I
+100 1 40 C
+4
+100 1 10 C
+200 1 20 C
+300 1 30 C
+100 2 40 C
+4
+100 1 10 I
+200 1 20 C
+300 1 30 C
+100 1 40 I
