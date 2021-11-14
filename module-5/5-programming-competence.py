@@ -86,14 +86,12 @@ def main():
             "db": marathonDb
         })
 
-    # prevNumber = cases - 1
     for i in range(cases):
         marathon = finalArr[i]
         print("maraton {}:".format(marathon["number"]))
         printMarathonBoard(marathon['db'])
-        # Sometimes it works with this
-        # if(i != prevNumber):
-        #     print(" ")
+        # It also works without the print
+        print("")
 
 
 main()
