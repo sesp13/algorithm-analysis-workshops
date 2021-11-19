@@ -2,9 +2,8 @@ def findTheKPair(numbersLength, numbersLst, kIndex):
     numbersLst = sorted(numbersLst)
     numbersLowerThanK, numbersPending = divmod(kIndex, numbersLength)
     numbersLowerThanK = numbersLowerThanK - 1 if(numbersPending == 0) else numbersLowerThanK
-    numbersPending -= 1
     base = numbersLst[numbersLowerThanK]
-    sencondPair = numbersLst[numbersPending]
+    sencondPair = numbersLst[numbersPending - 1]
     print("{} {}".format(base, sencondPair))
 
 
