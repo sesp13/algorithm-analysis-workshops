@@ -1,4 +1,3 @@
-from math import floor
 from random import randint
 
 
@@ -36,33 +35,3 @@ def findStatistic(arr, i, j, k):
             return findStatistic(arr, h+1, j, k)
         else:
             return findStatistic(arr, i, h-1, k)
-
-
-def getBestHouse(arr):
-    # Sort array
-    arrLength = len(arr)
-    middle = floor(arrLength / 2)
-
-    # Get correct index
-    index = middle - 1 if arrLength % 2 == 0 else middle
-
-    selectedHouse = findStatistic(arr, 0, arrLength - 1, index)
-
-    diff = 0
-    for element in arr:
-        if(element != selectedHouse):
-            diff += abs(selectedHouse - element)
-
-    print("{} {}".format(selectedHouse, diff))
-
-
-def main():
-    arrLength = int(input())
-    arr = []
-    for _ in range(arrLength):
-        arr.append(int(input()))
-
-    getBestHouse(arr)
-
-
-main()
