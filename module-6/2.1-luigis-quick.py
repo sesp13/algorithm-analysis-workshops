@@ -1,7 +1,12 @@
 from math import floor
+from random import randint
 
 
-def getPivotIndex(arr, a, b):
+def getPivotIndex(arr, a, b, p):
+    xa = arr[a]
+    xp = arr[p]
+    arr[a] = xp
+    arr[p] = xa
     i = a
     for j in range(a+1, b + 1):
         if(arr[j] < arr[a]):
@@ -21,8 +26,8 @@ def getPivotIndex(arr, a, b):
 
 def quickSort(arr, a, b):
     if b - a > 0:
-        p = a
-        pivotCorrectIndex = getPivotIndex(arr, a, b)
+        p = randint(a, b)
+        pivotCorrectIndex = getPivotIndex(arr, a, b, p)
         quickSort(arr, a, pivotCorrectIndex - 1)
         quickSort(arr, pivotCorrectIndex + 1, b)
     return arr
