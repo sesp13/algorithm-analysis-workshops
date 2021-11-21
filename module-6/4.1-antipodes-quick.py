@@ -1,7 +1,6 @@
-from math import floor
 from random import randint
 
-# Version of the exercise using quick sort -> statitic k
+# Version of the excersice using quick sort statitic k
 
 def getPivotIndex(arr, a, b, p):
     xa = arr[a]
@@ -39,30 +38,25 @@ def findStatistic(arr, i, j, k):
             return findStatistic(arr, i, h-1, k)
 
 
-def getBestHouse(arr):
+def getDifference(arr, selectedIndex):
     arrLength = len(arr)
-    middle = floor(arrLength / 2)
-
-    # Get correct index
-    index = middle - 1 if arrLength % 2 == 0 else middle
-
-    selectedHouse = findStatistic(arr, 0, arrLength - 1, index)
-
-    diff = 0
-    for element in arr:
-        if(element != selectedHouse):
-            diff += abs(selectedHouse - element)
-
-    print("{} {}".format(selectedHouse, diff))
+    selectedIndex -= 1
+    antipodeIndex = len(arr) - 1 - selectedIndex
+    selectedElement = findStatistic(arr, 0, arrLength - 1, selectedIndex)
+    antipodeElement = findStatistic(arr, 0, arrLength - 1, antipodeIndex)
+    print(abs(selectedElement - antipodeElement))
 
 
 def main():
-    arrLength = int(input())
-    arr = []
-    for _ in range(arrLength):
-        arr.append(int(input()))
+    inputArr = input().split()
+    totalOfElements = int(inputArr[0])
+    selectedIndex = int(inputArr[1])
 
-    getBestHouse(arr)
+    finalArr = []
+    for _ in range(totalOfElements):
+        finalArr.append(int(input()))
+
+    getDifference(finalArr, selectedIndex)
 
 
 main()
