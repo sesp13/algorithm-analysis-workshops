@@ -1,44 +1,74 @@
 import heapq
 
+# Global var counter
+imperfectionScore = 0
 
-def getImperfectionScore(element):
-    currentStr = 'current'
-    perfectStr = 'perfect'
-    orderElement = {
-        'A': {currentStr: -1, perfectStr: 1},
-        'C': {currentStr: -1, perfectStr: 2},
-        'G': {currentStr: -1, perfectStr: 3},
-        'T': {currentStr: -1, perfectStr: 4},
-    }
-    order = 0
-    for char in element:
-        if(orderElement[char][currentStr] == -1):
-            order += 1
-            orderElement[char][currentStr] = order
-            if(order == 4):
+
+def merge(leftArr, rightArr, length):
+    global imperfectionScore
+    i = 0
+    j = 0
+    k = 0
+    newArr = []
+    leftLength = len(leftArr)
+    rightLength = len(rightArr)
+
+    while k < length:
+        if(i < leftLength):
+            if(j < rightLength):
+                if(leftArr[i] <= rightArr[j]):
+                    newArr.append(leftArr[i])
+                    i += 1
+                else:
+                    newArr.append(rightArr[j])
+                    # Increase counter in leftArr's current length
+                    imperfectionScore += leftLength - i
+                    j += 1
+            else:
+                # Add left arr
+                newArr.extend(leftArr[i:])
                 break
-
-    perfectsRest = 0
-    imperfectionScore = 0
-    for key in orderElement:
-        element = orderElement[key]
-        if(element[currentStr] == -1):
-            perfectsRest += 1
         else:
-            perfection = element[perfectStr] - perfectsRest
-            if(perfection != element[currentStr]):
-                imperfectionScore += 1
+            if(j < rightLength):
+                # Add right arr
+                newArr.extend(rightArr[j:])
+                break
+        k += 1
+    return newArr
 
-    return imperfectionScore
+
+def mergeSort(arr, length):
+    length = length if(length == len(arr)) else len(arr)
+    if(length > 1):
+        newLength = int(length/2)
+        leftArr = arr[0:newLength]
+        rightArr = arr[newLength:]
+        sortedArr = merge(
+            mergeSort(leftArr, newLength),
+            mergeSort(rightArr, newLength),
+            length
+        )
+        return sortedArr
+    else:
+        return arr
+
+
+def setImperfectionScore(element):
+    elementArr = []
+    for elementChar in element:
+        elementArr.append(elementChar)
+    mergeSort(elementArr, len(elementArr))
 
 
 def getTheBestChosen(arr, chosen):
+    global imperfectionScore
     pq = []
     heapq.heapify(pq)
     for element in arr:
-        score = getImperfectionScore(element)
-        criteriaArr = [score, element]
+        setImperfectionScore(element)
+        criteriaArr = [imperfectionScore, element]
         heapq.heappush(pq, criteriaArr)
+        imperfectionScore = 0
 
     for _ in range(chosen):
         chosenElement = heapq.heappop(pq)
