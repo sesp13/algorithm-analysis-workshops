@@ -54,6 +54,8 @@ def mergeSort(arr, length):
 
 
 def setImperfectionScore(element):
+    # Convert the char into an element also apply merge sort which modify global's
+    # imperfection score
     elementArr = []
     for elementChar in element:
         elementArr.append(elementChar)
@@ -65,9 +67,12 @@ def getTheBestChosen(arr, chosen):
     pq = []
     heapq.heapify(pq)
     for element in arr:
+        # The key is by finding array inversions!
         setImperfectionScore(element)
+        # Use global var imperfectionScore
         criteriaArr = [imperfectionScore, element]
         heapq.heappush(pq, criteriaArr)
+        # Reset imperfection score for the next case
         imperfectionScore = 0
 
     for _ in range(chosen):
