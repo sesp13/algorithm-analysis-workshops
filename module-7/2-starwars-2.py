@@ -52,10 +52,7 @@ def getMinRivalsDistance(caseArr):
     caseArr.sort(key=lambda element: element[0])
     currentArr = caseArr
     resultDistance = closestPair(0, len(currentArr) - 1)
-    if(math.isinf(resultDistance)):
-        print('INF')
-    else:
-        print(round(resultDistance, 1))
+    print(round(resultDistance, 1))
 
 
 def main():
@@ -65,15 +62,26 @@ def main():
         if(numberOfPlanets == 0):
             break
         caseArr = []
+        hasTwoTeams = False
+        currentTeam = ''
         for _ in range(numberOfPlanets):
             inputArr = input().split()
+            if(currentTeam != inputArr[2]):
+                if(currentTeam == ''):
+                    currentTeam = inputArr[2]
+                else:
+                    hasTwoTeams = True
             inputArr[0] = int(inputArr[0])
             inputArr[1] = int(inputArr[1])
             caseArr.append(inputArr)
-        finalArr.append(caseArr)
 
-    for caseArr in finalArr:
-        getMinRivalsDistance(caseArr)
+        finalArr.append([caseArr, hasTwoTeams])
+
+    for element in finalArr:
+        if(not element[1]):
+            print('INF')
+        else:
+            getMinRivalsDistance(element[0])
 
 
 main()
