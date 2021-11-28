@@ -35,13 +35,15 @@ def main():
         finalArr.append([caseCount, arr])
         caseCount += 1
 
-    for item in finalArr:
+    for i in range(len(finalArr)):
+        item = finalArr[i]
         print("caso {}:".format(item[0]))
         n = int(item[1][0])
         n1 = item[1][1]
         n2 = item[1][2]
         getKaratsuba(n, n1, n2)
-        print("")
+        if(i != cases - 1):
+          print("")
 
 
 main()
