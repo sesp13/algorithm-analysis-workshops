@@ -2,29 +2,25 @@ import math
 
 
 def getPointDistance(arr, i, j):
-    p1 = arr[i]
-    p2 = arr[j]
-    if(p1['team'] != p2['team']):
-        p1 = [p1['x'], p1['y']]
-        p2 = [p2['x'], p2['y']]
-        return round(math.dist(p1, p2), 1)
-    else:
-        return math.inf
+    p1 = [arr[i][0], arr[i][1]]
+    p2 = [arr[j][0], arr[j][1]]
+    return math.dist(p1, p2)
 
 
 def getMinDistanceSplit(arr, i, j, delta):
-    middlePointX = arr[int((i + j) / 2)]['x']
+    middlePointX = arr[int((i + j) / 2)][0]
     sxPoints = [planet for planet in arr if(
-        abs(planet['x'] - middlePointX) < delta)]
-    syPoints = sorted(sxPoints, key=lambda element: element['y'])
+        abs(planet[0] - middlePointX) < delta)]
+    syPoints = sorted(sxPoints, key=lambda element: element[1])
     syLength = len(syPoints)
     minDistance = delta
-    for p in range(syLength):
+    for p in range(syLength - 1):
         q = p + 1
         while q < syLength and q <= p + 7:
-            currentDistance = getPointDistance(syPoints, p, q)
-            if(currentDistance < minDistance):
-                minDistance = currentDistance
+            if(syPoints[p][2] != syPoints[q][2]):
+                currentDistance = getPointDistance(syPoints, p, q)
+                if(currentDistance < minDistance):
+                    minDistance = currentDistance
             q += 1
     return minDistance
 
@@ -34,7 +30,12 @@ def getMinDistance(arr, i, j):
         # A huge number
         return math.inf
     elif (j-i == 1):
-        return getPointDistance(arr, i, j)
+        p1 = arr[i]
+        p2 = arr[j]
+        if(p1[2] != p2[2]):
+            return getPointDistance(arr, i, j)
+        else:
+            return math.inf
     else:
         # Do magic here
         middleIndex = int((i + j) / 2)
@@ -45,13 +46,12 @@ def getMinDistance(arr, i, j):
 
 
 def getMinRivalsDistance(arr):
-    arr = sorted(arr, key=lambda element: element['x'])
+    arr = sorted(arr, key=lambda element: element[0])
     resultDistance = getMinDistance(arr, 0, len(arr) - 1)
     if(resultDistance == math.inf):
         print('INF')
     else:
-        print(resultDistance)
-        # print(round(resultDistance, 1))
+        print(round(resultDistance, 1))
 
 
 def main():
@@ -63,12 +63,9 @@ def main():
         caseArr = []
         for _ in range(numberOfPlanets):
             inputArr = input().split()
-            planetObject = {
-                "x": int(inputArr[0]),
-                "y": int(inputArr[1]),
-                "team": inputArr[2],
-            }
-            caseArr.append(planetObject)
+            inputArr[0] = int(inputArr[0])
+            inputArr[1] = int(inputArr[1])
+            caseArr.append(inputArr)
         finalArr.append(caseArr)
 
     for caseArr in finalArr:
