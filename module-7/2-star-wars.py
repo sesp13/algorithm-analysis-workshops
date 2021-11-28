@@ -1,24 +1,21 @@
 import math
-hugeNumber = 100000
 
 
 def getPointDistance(arr, i, j):
-    global hugeNumber
     p1 = arr[i]
     p2 = arr[j]
     if(p1['team'] != p2['team']):
-        item1 = math.pow(p1['x'] - p2['x'], 2)
-        item2 = math.pow(p1['y'] - p2['y'], 2)
-        return round(math.sqrt((item1 + item2)), 1)
+        p1 = [p1['x'], p1['y']]
+        p2 = [p2['x'], p2['y']]
+        return round(math.dist(p1, p2), 1)
     else:
-        return hugeNumber
+        return math.inf
 
 
 def getMinDistanceSplit(arr, i, j, delta):
-    middleIndex = int((i + j) / 2)
-    sxLeftIndex = int(middleIndex - delta)
-    sxRightIndex = int(middleIndex + delta)
-    sxPoints = arr[sxLeftIndex: sxRightIndex]
+    middlePointX = arr[int((i + j) / 2)]['x']
+    sxPoints = [planet for planet in arr if(
+        abs(planet['x'] - middlePointX) < delta)]
     syPoints = sorted(sxPoints, key=lambda element: element['y'])
     syLength = len(syPoints)
     minDistance = delta
@@ -35,7 +32,7 @@ def getMinDistanceSplit(arr, i, j, delta):
 def getMinDistance(arr, i, j):
     if(i == j):
         # A huge number
-        return hugeNumber
+        return math.inf
     elif (j-i == 1):
         return getPointDistance(arr, i, j)
     else:
@@ -50,7 +47,7 @@ def getMinDistance(arr, i, j):
 def getMinRivalsDistance(arr):
     arr = sorted(arr, key=lambda element: element['x'])
     resultDistance = getMinDistance(arr, 0, len(arr) - 1)
-    if(resultDistance == hugeNumber):
+    if(resultDistance == math.inf):
         print('INF')
     else:
         print(resultDistance)
