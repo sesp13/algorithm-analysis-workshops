@@ -10,7 +10,8 @@ def closestSplitPair(i, j, delta):
     for point in currentArr:
         if(abs(point[0] - middleX) < delta):
             S.append(point)
-    SY = sorted(S, key=lambda element: element[1])
+    S.sort(key=lambda element: element[1])
+    SY = S
     minD = delta
     for p in range(len(SY) - 1):
         q = p + 1
@@ -48,7 +49,8 @@ def closestPair(i, j):
 
 def getMinRivalsDistance(caseArr):
     global currentArr
-    currentArr = sorted(caseArr, key=lambda element: element[0])
+    caseArr.sort(key=lambda element: element[0])
+    currentArr = caseArr
     resultDistance = closestPair(0, len(currentArr) - 1)
     if(math.isinf(resultDistance)):
         print('INF')
