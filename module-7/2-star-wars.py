@@ -1,5 +1,5 @@
 import math
-hugeNumber = 10000000000000000
+hugeNumber = 10000000000
 
 
 def getPointDistance(arr, i, j):
@@ -7,18 +7,18 @@ def getPointDistance(arr, i, j):
     p2 = arr[j]
     item1 = math.pow(p1['x'] - p2['x'], 2)
     item2 = math.pow(p1['y'] - p2['y'], 2)
-    return math.sqrt((item1 + item2))
+    return round(math.sqrt((item1 + item2)), 1)
 
 
 def getMinDistanceSplit(arr, i, j, delta):
-    middleIndex = int(math.floor((i + j) / 2))
+    middleIndex = int((i + j) / 2)
     sxLeftIndex = i
     sxRightIndex = j + 1
     # Set sxLimits if delta is not hugeNumber
     if(delta != hugeNumber):
-        sxLeftIndex = int(math.floor(middleIndex - delta))
+        sxLeftIndex = int(middleIndex - delta)
         # Sum 1 to take the last frontier
-        sxRightIndex = int(math.floor(middleIndex + delta + 1))
+        sxRightIndex = int(middleIndex + delta + 1)
     sxPoints = arr[sxLeftIndex: sxRightIndex]
     syPoints = sorted(sxPoints, key=lambda element: element['y'])
     syLength = len(syPoints)
@@ -52,12 +52,11 @@ def getMinDistance(arr, i, j):
             return hugeNumber
     else:
         # Do magic here
-        middleIndex = int(math.floor((i + j) / 2))
+        middleIndex = int((i + j) / 2)
         minDistanceLeft = getMinDistance(arr, i, middleIndex)
         minDistanceRight = getMinDistance(arr, 1 + middleIndex, j)
         delta = min(minDistanceRight, minDistanceLeft)
-        ds = getMinDistanceSplit(arr, i, j, delta)
-        return ds
+        return getMinDistanceSplit(arr, i, j, delta)
 
 
 def getMinRivalsDistance(arr):
@@ -66,7 +65,8 @@ def getMinRivalsDistance(arr):
     if(resultDistance == hugeNumber):
         print('INF')
     else:
-        print(round(resultDistance, 1))
+        print(resultDistance)
+        # print(round(resultDistance, 1))
 
 
 def main():
