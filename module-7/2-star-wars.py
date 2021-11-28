@@ -1,13 +1,17 @@
 import math
-hugeNumber = 10000000000
+hugeNumber = 100000
 
 
 def getPointDistance(arr, i, j):
+    global hugeNumber
     p1 = arr[i]
     p2 = arr[j]
-    item1 = math.pow(p1['x'] - p2['x'], 2)
-    item2 = math.pow(p1['y'] - p2['y'], 2)
-    return round(math.sqrt((item1 + item2)), 1)
+    if(p1['team'] != p2['team']):
+        item1 = math.pow(p1['x'] - p2['x'], 2)
+        item2 = math.pow(p1['y'] - p2['y'], 2)
+        return round(math.sqrt((item1 + item2)), 1)
+    else:
+        return hugeNumber
 
 
 def getMinDistanceSplit(arr, i, j, delta):
@@ -21,13 +25,9 @@ def getMinDistanceSplit(arr, i, j, delta):
     for p in range(syLength):
         q = p + 1
         while q < syLength and q <= p + 7:
-            # Verify if the points are from different groups
-            point1 = syPoints[p]
-            point2 = syPoints[q]
-            if(point1['team'] != point2['team']):
-                currentDistance = getPointDistance(syPoints, p, q)
-                if(currentDistance < minDistance):
-                    minDistance = currentDistance
+            currentDistance = getPointDistance(syPoints, p, q)
+            if(currentDistance < minDistance):
+                minDistance = currentDistance
             q += 1
     return minDistance
 
@@ -37,14 +37,7 @@ def getMinDistance(arr, i, j):
         # A huge number
         return hugeNumber
     elif (j-i == 1):
-        # Verify if the points are from different groups
-        point1 = arr[i]
-        point2 = arr[j]
-        if(point1['team'] != point2['team']):
-            # Function distance
-            return getPointDistance(arr, i, j)
-        else:
-            return hugeNumber
+        return getPointDistance(arr, i, j)
     else:
         # Do magic here
         middleIndex = int((i + j) / 2)
