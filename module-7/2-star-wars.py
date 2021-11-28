@@ -1,15 +1,10 @@
 import math
+currentArr = []
 
 
-def getPointDistance(arr, i, j):
-    p1 = [arr[i][0], arr[i][1]]
-    p2 = [arr[j][0], arr[j][1]]
-    return math.dist(p1, p2)
-
-
-def getMinDistanceSplit(arr, i, j, delta):
-    middlePointX = arr[int((i + j) / 2)][0]
-    sxPoints = [planet for planet in arr if(
+def getMinDistanceSplit(i, j, delta):
+    middlePointX = currentArr[int((i + j) / 2)][0]
+    sxPoints = [planet for planet in currentArr if(
         abs(planet[0] - middlePointX) < delta)]
     syPoints = sorted(sxPoints, key=lambda element: element[1])
     syLength = len(syPoints)
@@ -17,37 +12,40 @@ def getMinDistanceSplit(arr, i, j, delta):
     for p in range(syLength - 1):
         q = p + 1
         while q < syLength and q <= p + 7:
-            if(syPoints[p][2] != syPoints[q][2]):
-                currentDistance = getPointDistance(syPoints, p, q)
+            p1 = syPoints[p]
+            p2 = syPoints[q]
+            if(p1[2] != p2[2]):
+                currentDistance = math.dist(p1[:2], p2[:2])
                 if(currentDistance < minDistance):
                     minDistance = currentDistance
             q += 1
     return minDistance
 
 
-def getMinDistance(arr, i, j):
+def getMinDistance(i, j):
     if(i == j):
         # A huge number
         return math.inf
     elif (j-i == 1):
-        p1 = arr[i]
-        p2 = arr[j]
+        p1 = currentArr[i]
+        p2 = currentArr[j]
         if(p1[2] != p2[2]):
-            return getPointDistance(arr, i, j)
+            return math.dist(p1[:2], p2[:2])
         else:
             return math.inf
     else:
         # Do magic here
         middleIndex = int((i + j) / 2)
-        minDistanceLeft = getMinDistance(arr, i, middleIndex)
-        minDistanceRight = getMinDistance(arr, 1 + middleIndex, j)
+        minDistanceLeft = getMinDistance(i, middleIndex)
+        minDistanceRight = getMinDistance(middleIndex + 1, j)
         delta = min(minDistanceRight, minDistanceLeft)
-        return getMinDistanceSplit(arr, i, j, delta)
+        return getMinDistanceSplit(i, j, delta)
 
 
-def getMinRivalsDistance(arr):
-    arr = sorted(arr, key=lambda element: element[0])
-    resultDistance = getMinDistance(arr, 0, len(arr) - 1)
+def getMinRivalsDistance(caseArr):
+    global currentArr
+    currentArr = sorted(caseArr, key=lambda element: element[0])
+    resultDistance = getMinDistance(0, len(currentArr) - 1)
     if(resultDistance == math.inf):
         print('INF')
     else:
