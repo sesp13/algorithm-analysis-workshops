@@ -12,13 +12,8 @@ def getPointDistance(arr, i, j):
 
 def getMinDistanceSplit(arr, i, j, delta):
     middleIndex = int((i + j) / 2)
-    sxLeftIndex = i
-    sxRightIndex = j + 1
-    # Set sxLimits if delta is not hugeNumber
-    if(delta != hugeNumber):
-        sxLeftIndex = int(middleIndex - delta)
-        # Sum 1 to take the last frontier
-        sxRightIndex = int(middleIndex + delta + 1)
+    sxLeftIndex = int(middleIndex - delta)
+    sxRightIndex = int(middleIndex + delta)
     sxPoints = arr[sxLeftIndex: sxRightIndex]
     syPoints = sorted(sxPoints, key=lambda element: element['y'])
     syLength = len(syPoints)
