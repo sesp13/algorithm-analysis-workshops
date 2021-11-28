@@ -1,4 +1,4 @@
-import math
+from math import dist, inf
 
 currentArr = []
 
@@ -15,11 +15,11 @@ def closestSplitPair(i, j, delta):
     minD = delta
     for p in range(len(SY) - 1):
         q = p + 1
+        p1 = SY[p]
         while q < len(SY) and q <= p + 7:
-            p1 = SY[p]
             p2 = SY[q]
             if(p1[2] != p2[2]):
-                distance = math.dist(p1[:2], p2[:2])
+                distance = dist(p1[:2], p2[:2])
                 if(distance < minD):
                     minD = distance
             q += 1
@@ -29,22 +29,21 @@ def closestSplitPair(i, j, delta):
 
 def closestPair(i, j):
     if(i == j):
-        return math.inf
+        return inf
     elif j - i == 1:
         global currentArr
         p1 = currentArr[i]
         p2 = currentArr[j]
         if(p1[2] != p2[2]):
-            return math.dist(p1[:2], p2[:2])
+            return dist(p1[:2], p2[:2])
         else:
-            return math.inf
+            return inf
     else:
         middle = int((i + j) / 2)
         dl = closestPair(i, middle)
         dr = closestPair(middle + 1, j)
         delta = min(dl, dr)
-        ds = closestSplitPair(i, j, delta)
-        return min(delta, ds)
+        return closestSplitPair(i, j, delta)
 
 
 def getMinRivalsDistance(caseArr):
