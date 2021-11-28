@@ -1,5 +1,6 @@
 import math
 
+globalN = 0
 
 def getKaratsuba(n, number1, number2):
     if(n == 1):
@@ -22,11 +23,13 @@ def getKaratsuba(n, number1, number2):
             (math.pow(10, half) * (P2 + P3)) + P4
 
         resultNumber = int(resultNumber)
-        print(resultNumber)
+        if(n != globalN):
+            print(resultNumber)
         return resultNumber
 
 
 def main():
+    global globalN
     cases = int(input())
     finalArr = []
     caseCount = 1
@@ -41,7 +44,9 @@ def main():
         n = int(item[1][0])
         n1 = item[1][1]
         n2 = item[1][2]
+        globalN = n
         getKaratsuba(n, n1, n2)
+        print(int(n1) * int(n2))
         if(i != cases - 1):
           print("")
 
