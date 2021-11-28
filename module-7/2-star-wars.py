@@ -3,9 +3,10 @@ currentArr = []
 
 
 def getMinDistanceSplit(i, j, delta):
-    middlePointX = currentArr[int((i + j) / 2)][0]
-    sxPoints = [planet for planet in currentArr if(
-        abs(planet[0] - middlePointX) < delta)]
+    global currentArr
+    middlePointX = currentArr[(i + j) // 2][0]
+    sxPoints = [point for point in currentArr if(
+        abs(point[0] - middlePointX) < delta)]
     syPoints = sorted(sxPoints, key=lambda element: element[1])
     syLength = len(syPoints)
     minDistance = delta
@@ -23,6 +24,7 @@ def getMinDistanceSplit(i, j, delta):
 
 
 def getMinDistance(i, j):
+    global currentArr
     if(i == j):
         # A huge number
         return math.inf
@@ -35,7 +37,7 @@ def getMinDistance(i, j):
             return math.inf
     else:
         # Do magic here
-        middleIndex = int((i + j) / 2)
+        middleIndex = (i + j) // 2
         minDistanceLeft = getMinDistance(i, middleIndex)
         minDistanceRight = getMinDistance(middleIndex + 1, j)
         delta = min(minDistanceRight, minDistanceLeft)
@@ -46,7 +48,7 @@ def getMinRivalsDistance(caseArr):
     global currentArr
     currentArr = sorted(caseArr, key=lambda element: element[0])
     resultDistance = getMinDistance(0, len(currentArr) - 1)
-    if(resultDistance == math.inf):
+    if(math.isinf(resultDistance)):
         print('INF')
     else:
         print(round(resultDistance, 1))
