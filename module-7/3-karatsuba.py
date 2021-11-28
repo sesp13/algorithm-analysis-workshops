@@ -1,12 +1,8 @@
-import math
-
-globalN = 0
-
 def getKaratsuba(n, number1, number2):
     if(n == 1):
         resultNumber = int(number1) * int(number2)
         print(resultNumber)
-        return resultNumber
+        return str(resultNumber)
     else:
         half = int(n / 2)
         a = number1[:half]
@@ -14,22 +10,19 @@ def getKaratsuba(n, number1, number2):
         c = number2[:half]
         d = number2[half:]
 
-        P1 = getKaratsuba(half, a, c)
-        P2 = getKaratsuba(half, a, d)
-        P3 = getKaratsuba(half, b, c)
-        P4 = getKaratsuba(half, b, d)
+        P1 = int(getKaratsuba(half, a, c))
+        P2 = int(getKaratsuba(half, a, d))
+        P3 = int(getKaratsuba(half, b, c))
+        P4 = int(getKaratsuba(half, b, d))
 
-        resultNumber = (math.pow(10, n) * P1) + \
-            (math.pow(10, half) * (P2 + P3)) + P4
+        resultNumber = ((10**n) * P1) + \
+            ((10**half) * (P2 + P3)) + P4
 
-        resultNumber = int(resultNumber)
-        if(n != globalN):
-            print(resultNumber)
-        return resultNumber
+        print(resultNumber)
+        return str(resultNumber)
 
 
 def main():
-    global globalN
     cases = int(input())
     finalArr = []
     caseCount = 1
@@ -44,11 +37,9 @@ def main():
         n = int(item[1][0])
         n1 = item[1][1]
         n2 = item[1][2]
-        globalN = n
         getKaratsuba(n, n1, n2)
-        print(int(n1) * int(n2))
         if(i != cases - 1):
-          print("")
+            print("")
 
 
 main()
