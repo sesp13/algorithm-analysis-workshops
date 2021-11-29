@@ -4,17 +4,20 @@ currentArr = []
 
 def getMinDistanceSplit(i, j, delta):
     global currentArr
-    middlePointX = currentArr[(i + j) // 2][0]
-    sxPoints = [point for point in currentArr if(
-        abs(point[0] - middlePointX) < delta)]
-    syPoints = sorted(sxPoints, key=lambda element: element[1])
-    syLength = len(syPoints)
+    middleIndex = int((i + j) / 2)
+    middlePointX = currentArr[middleIndex][0]
+    S = []
+    for point in currentArr:
+        if(abs(point[0] - middlePointX) < delta):
+            S.append(point)
+    SY = sorted(S, key=lambda element: element[1])
+    syLength = len(SY)
     minDistance = delta
     for p in range(syLength - 1):
         q = p + 1
         while q < syLength and q <= p + 7:
-            p1 = syPoints[p]
-            p2 = syPoints[q]
+            p1 = SY[p]
+            p2 = SY[q]
             if(p1[2] != p2[2]):
                 currentDistance = math.dist(p1[:2], p2[:2])
                 if(currentDistance < minDistance):
@@ -26,7 +29,6 @@ def getMinDistanceSplit(i, j, delta):
 def getMinDistance(i, j):
     global currentArr
     if(i == j):
-        # A huge number
         return math.inf
     elif (j-i == 1):
         p1 = currentArr[i]
@@ -36,8 +38,7 @@ def getMinDistance(i, j):
         else:
             return math.inf
     else:
-        # Do magic here
-        middleIndex = (i + j) // 2
+        middleIndex = int((i + j) / 2)
         minDistanceLeft = getMinDistance(i, middleIndex)
         minDistanceRight = getMinDistance(middleIndex + 1, j)
         delta = min(minDistanceRight, minDistanceLeft)
