@@ -7,7 +7,8 @@ def getMinDistanceSplit(i, j, delta):
     middleIndex = int((i + j) / 2)
     middlePointX = currentArr[middleIndex][0]
     S = []
-    for point in currentArr:
+    for k in range(i, j +1):
+        point = currentArr[k]
         if(abs(point[0] - middlePointX) < delta):
             S.append(point)
     SY = sorted(S, key=lambda element: element[1])
