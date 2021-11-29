@@ -7,7 +7,8 @@ def closestSplitPair(i, j, delta):
     global currentArr
     middleX = currentArr[int((i + j) / 2)][0]
     S = []
-    for point in currentArr:
+    for k in range(i, j + 1):
+        point = currentArr[k]
         if(abs(point[0] - middleX) < delta):
             S.append(point)
     S.sort(key=lambda element: element[1])
