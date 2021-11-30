@@ -29,8 +29,9 @@ def strassen(n, m1, m2):
         #  sum submatrixes
         sum = 0
 
-        # Build result matrix, copy it's structure from m1
-        final = m1
+        # Create result matrix
+        final = [[0 for x in range(n)] for y in range(n)] 
+        
         for i in range(n):
             for j in range(n):
                 value = 0
