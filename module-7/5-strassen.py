@@ -1,16 +1,3 @@
-def getSumMatrix(sm1, sm2):
-    final = sm1
-    count = 0
-    length = len(sm1)
-    for i in range(length):
-        for j in range(length):
-            value = sm2[i][j]
-            final[i][j] += sm2[i][j]
-            count += value
-
-    return final, value
-
-
 def strassen(n, m1, m2):
     if(n == 1):
         # Base Case
@@ -40,32 +27,40 @@ def strassen(n, m1, m2):
         P8 = strassen(half, D, H)
 
         #  sum submatrixes
-        count = 0
-        final1 = P1
-        final2 = P3
-        final3 = P5
-        final4 = P7
-        count = 0
-        length = len(final1)
-        
-        for i in range(length):
-            for j in range(length):
-                value1 = P2[i][j]
-                value2 = P4[i][j]
-                value3 = P6[i][j]
-                value4 = P8[i][j]
-                final1[i][j] += value1
-                final2[i][j] += value2
-                final3[i][j] += value3
-                final4[i][j] += value4
-                # Increase counter
-                count += final1[i][j]
-                count += final2[i][j]
-                count += final3[i][j]
-                count += final4[i][j]
+        sum = 0
 
+        # Build result matrix, copy it's structure from m1
+        final = m1
+        for i in range(n):
+            for j in range(n):
+                value = 0
+                if(i < half):
+                    if(j < half):
+                        # First side P1 P2
+                        value = P1[i][j] + P2[i][j]
+                        final[i][j] = value
+                    else:
+                        # Third side P5 P6
+                        j1 = j - half
+                        value = P5[i][j1] + P6[i][j1]
+                        final[i][j] = value
+                else:
+                    i1 = i - half
+                    if(j < half):
+                        # Second side P3 P4
+                        value = P3[i1][j] + P4[i1][j]
+                        final[i][j] = value
+                    else:
+                        # Fourth side P7 P8
+                        j1 = j - half
+                        value = P7[i1][j1] + P8[i1][j1]
+                        final[i][j] = value
 
-        print(count)
+                # Sum current value
+                sum += value
+
+        print(sum)
+        return final
 
 
 def main():
