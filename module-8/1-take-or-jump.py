@@ -5,21 +5,21 @@ def getMaxScore(arr):
         print(0)
     elif(arrLength == 1):
         print(arr[0])
+    elif(arrLength == 2):
+        print(max(arr))
     else:
-        bestCases = [arr[0]]
-        for i in range(1, arrLength):
+        bestCases = [arr[0], max(arr[0], arr[1])]
+        for i in range(2, arrLength):
             # Take or not take
-            lastIndex = i - 1
             currentItem = arr[i]
-            lastItem = arr[lastIndex]
-            bestBefore = bestCases[lastIndex]
-
-            # Choose which is better
+            bestBeforeOne = bestCases[i - 1]
+            bestBeforeTwo = bestCases[i - 2]
             # Take it
-            takeScore = bestBefore + currentItem - lastItem
-            leaveScore = bestBefore
-            bestCases.append(max(takeScore, leaveScore))
-        
+            sumTake = currentItem + bestBeforeTwo
+            # Dont take it
+            sumNotTake = bestBeforeOne
+            bestCases.append(max(sumTake, sumNotTake))
+
         print(bestCases[arrLength - 1])
 
 
