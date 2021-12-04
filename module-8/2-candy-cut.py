@@ -1,12 +1,14 @@
 def getMinMaxCosts(caseArr):
     arrLength = caseArr[0]
     p = caseArr[1:]
-    rMax = [p[0]]
-    rMin = [p[0]]
+    rMax = [0 for _ in range(arrLength)]
+    rMin = [0 for _ in range(arrLength)]
+    rMax[0] = p[0]
+    rMin[0] = p[0]
     for i in range(1, arrLength):
         # Set current price for the index
-        rMax.append(p[i])
-        rMin.append(p[i])
+        rMax[i] = p[i]
+        rMin[i] = p[i]
         # Calculate rest
         for j in range(i):
             # Get current price for the index
@@ -14,15 +16,12 @@ def getMinMaxCosts(caseArr):
             # Get the index of the rest pending
             restIndex = i - j - 1
             # Fill for the max procceses
-            currentMax = rMax[restIndex]
-            sumMax = pj + currentMax
-            rMax[i] = max(rMax[i], sumMax)
+            rMax[i] = max(rMax[i], pj + rMax[restIndex])
             # Fill for the min proccess
-            currentMin = rMin[restIndex]
-            sumMin = pj + currentMin
-            rMin[i] = min(rMin[i], sumMin)
+            rMin[i] = min(rMin[i], pj +  rMin[restIndex])
 
-    print("{} {}".format(rMin[arrLength - 1], rMax[arrLength - 1]))
+    lastIndex = arrLength - 1
+    print("{} {}".format(rMin[lastIndex], rMax[lastIndex]))
 
 
 def main():
