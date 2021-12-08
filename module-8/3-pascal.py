@@ -5,6 +5,7 @@ GLOBALMOD = 999999937
 oneMod = 1 % GLOBALMOD
 
 globalPascalArr = [[oneMod], [oneMod, oneMod]]
+# globalPascalArr = [[1], [1, 1]]
 
 
 def buildPascal(maxLevel):
@@ -13,21 +14,18 @@ def buildPascal(maxLevel):
     else:
         global globalPascalArr
         global GLOBALMOD
-        for level in range(1, maxLevel):
-            # Sum 2 because its necesary to build next correct structure
-            nextLevel = level + 2
-            nextLevelLength = math.ceil(nextLevel / 2)
+        global oneMod
+        for level in range(1, maxLevel - 1):
+            nextLevelArr = [oneMod]
             currentLevelArr = globalPascalArr[level]
-            nextLevelArr = [0 for _ in range(nextLevelLength)]
             # Build new level
             for i in range(1, len(currentLevelArr)):
                 prevIndex = i - 1
                 sum = currentLevelArr[prevIndex] + currentLevelArr[i]
-                nextLevelArr[prevIndex] = sum % GLOBALMOD
-            
+                nextLevelArr.append(sum % GLOBALMOD)
+
             # Add final element
-            sum = currentLevelArr[-1] + currentLevelArr[-2]
-            nextLevelArr[-1] = sum % GLOBALMOD
+            nextLevelArr.append(oneMod)
 
             globalPascalArr.append(nextLevelArr)
 
@@ -36,6 +34,7 @@ def getPascals(arr: list):
     global globalPascalArr
     maxLevel = max(arr)
     buildPascal(maxLevel)
+    print(3 % GLOBALMOD)
     print("Hello world")
 
 
