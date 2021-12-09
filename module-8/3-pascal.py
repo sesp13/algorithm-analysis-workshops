@@ -1,5 +1,3 @@
-import math
-
 GLOBALMOD = 999999937
 oneMod = 1 % GLOBALMOD
 globalPascalArr = [[oneMod], [oneMod, oneMod]]
@@ -22,10 +20,9 @@ def buildPascal():
             # Build new level
             maxSum = 0
             for i in range(1, len(currentLevelArr)):
-                prevIndex = i - 1
-                sum = currentLevelArr[prevIndex] + currentLevelArr[i]
+                sum = currentLevelArr[i - 1] + currentLevelArr[i]
                 maxSum = sum if(sum > maxSum) else maxSum
-                nextLevelArr.append(sum % GLOBALMOD)
+                nextLevelArr.append(sum)
 
             # Add final element
             nextLevelArr.append(oneMod)
@@ -38,9 +35,11 @@ def buildPascal():
 def getPascals(arr: list):
     global globalMaxArr
     global maxLevel
+    global GLOBALMOD
     buildPascal()
     for level in arr:
-        print(globalMaxArr[level - 1])
+        print(globalMaxArr[level - 1] % GLOBALMOD)
+
 
 def main():
     global maxLevel
