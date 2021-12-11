@@ -1,20 +1,30 @@
-def solveKnapsack(productsArr, maxWeight):
+def buildKnapsackMatrix(productsArr, maxWeight):
     # products arr [Cost, Weight]
     productsLength = len(productsArr)
-    A = [[0 for __ in range(maxWeight)] for _ in range(productsLength)]
+    A = [[0 for __ in range(maxWeight + 1)] for _ in range(productsLength + 1)]
 
-    for i in range(1, productsLength):
-        for j in range(maxWeight):
-            currentCost = productsArr[i][1]
-            prevIndex = i - 1
+    for i in range(1, productsLength + 1):
+        prevIndex = i - 1
+        currentCost = productsArr[prevIndex][1]
+        for j in range(maxWeight + 1):
+            prevA = A[prevIndex][j]
             if(currentCost <= j):
-                currentIncome = productsArr[i][0]
+                currentIncome = productsArr[prevIndex][0]
                 k = j - currentCost
-                A[i][j] = max(currentIncome + A[prevIndex][k], A[prevIndex][k])
+                A[i][j] = max(currentIncome + A[prevIndex][k], prevA)
             else:
-                A[i][j] = A[prevIndex][j]
+                A[i][j] = prevA
 
-    return A[-1][-1]
+    return A
+
+
+def getMaxPrice(productsArr: list, familyArr: list, maxFamilyWeight: int):
+    A = buildKnapsackMatrix(productsArr, maxFamilyWeight)
+    s = 0
+    for member in familyArr:
+        # is A[-1][member] because the matrix has an extra row, column
+        s += A[-1][member]
+    print(s)
 
 
 def main():
@@ -24,12 +34,14 @@ def main():
         productsArr.append([int(x) for x in input().split()])
 
     familyNumber = int(input())
-
-    maxPrice = 0
+    familyArr = []
+    maxFamilyWeight = 0
     for _ in range(familyNumber):
-        maxPrice += solveKnapsack(productsArr, int(input()))
+        member = int(input())
+        maxFamilyWeight = max(member, maxFamilyWeight)
+        familyArr.append(member)
 
-    print(maxPrice)
+    getMaxPrice(productsArr, familyArr, maxFamilyWeight)
 
 
 main()
