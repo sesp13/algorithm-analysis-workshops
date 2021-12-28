@@ -3,16 +3,16 @@ import math
 
 def getMinCost(costArr: list):
     N = len(costArr)
-    M = [[math.inf for __ in range(N)] for _ in range(N)]
-    for steps in range(N):
+    M = [[0 for __ in range(N)] for _ in range(N)]
+    for steps in range(1, N):
         for i in range(N - steps):
             j = i + steps
             lowest = costArr[i][j]
-            for k in range(i + 1, j - 1):
+            for k in range(i + 1, j):
                 lowest = min(lowest, M[k][j] + M[i][k])
             M[i][j] = lowest
 
-    print(M)
+    print(M[0][-1])
 
 
 def main():
