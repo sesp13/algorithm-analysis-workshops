@@ -19,9 +19,9 @@ def countDivisors(n):
 
 def fusion(arr1: list, arr2: list):
     newId = max(arr1[0], arr2[0])
-    newLevel = arr1[1] + arr2[1]
-    newLevel += countDivisors(newLevel)
-    return [newId, newLevel]
+    S = arr1[1] + arr2[1]
+    S += countDivisors(S)
+    return [newId, S]
 
 
 def getBestScore(arr: list):
@@ -34,8 +34,8 @@ def getBestScore(arr: list):
     # M = [[[0, 0] for _ in range(arrLength)] for __ in range(arrLength)]
 
     for matrices in range(1, arrLength):
-        for i in range(arrLength - matrices + 1):
-            j = i + matrices - 1
+        for i in range(arrLength - matrices):
+            j = i + matrices
             maxItem = [0, 0]
             for k in range(i, j):
                 item1 = M[i][k]
@@ -47,7 +47,7 @@ def getBestScore(arr: list):
 
             M[i][j] = maxItem
 
-    print(M[0][-1])
+    print(M[0][-1][1])
 
 
 def main():

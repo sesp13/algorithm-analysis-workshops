@@ -3,3 +3,44 @@
 20 2
 30 4
 10 1
+
+// 201
+1
+10
+3 2
+4 3
+10 55
+5 5
+1 1
+7 13
+2 1
+9 34
+6 8
+8 21
+
+Error de ejecución
+
+Detalles: sh: line 1: 28265 Killed python3.8 Main.py < in.txt
+
+El código ha fallado para el siguiente caso de prueba:
+
+5
+50
+83 136
+109 950
+122 701
+153 196
+94 599
+53 932
+72 220
+38 94
+149 117
+108 717
+98 207
+63 75
+88 911
+17 523
+15 102
+81 376
+3 468
+77 167... 
