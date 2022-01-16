@@ -3,9 +3,7 @@ import math
 
 def countDivisors(n):
     # By default a number always have 2 except for number 1
-    if n == 0:
-        count = 0
-    elif n == 1:
+    if n == 1:
         count = 1
     else:
         count = 2
@@ -29,8 +27,7 @@ def getBestScore(arr: list):
     # Sort arr by id
     arr.sort()
     # Create matrix
-    M = [[arr[i] if i == j else [0, 0]
-          for j in range(arrLength)] for i in range(arrLength)]
+    M = [[arr[i] for j in range(arrLength)] for i in range(arrLength)]
     # M = [[[0, 0] for _ in range(arrLength)] for __ in range(arrLength)]
 
     for matrices in range(1, arrLength):
@@ -43,8 +40,8 @@ def getBestScore(arr: list):
                 newItem = fusion(item1, item2)
                 # Redeclare max
                 if(newItem[1] >= maxItem[1]):
-                    maxItem = [newItem[0], newItem[1]]
-
+                    maxItem = newItem
+                    
             M[i][j] = maxItem
 
     print(M[0][-1][1])
