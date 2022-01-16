@@ -2,15 +2,10 @@ import math
 
 
 def countDivisors(n):
-    # By default a number always have 2 except for number 1
-    if n == 1:
-        count = 1
-    else:
-        count = 2
-        middle = math.ceil(n / 2)
-        for i in range(2, middle + 1):
-            if n % i == 0:
-                count += 1
+    count = 0
+    for i in range(1, (int)(math.sqrt(n)) + 1):
+        if n % i == 0:
+            count = count + 1 if n / i == i else count + 2
 
     return count
 
@@ -41,7 +36,7 @@ def getBestScore(arr: list):
                 # Redeclare max
                 if(newItem[1] >= maxItem[1]):
                     maxItem = newItem
-                    
+
             M[i][j] = maxItem
 
     print(M[0][-1][1])
