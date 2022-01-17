@@ -9,14 +9,6 @@ def countDivisors(n):
 
     return count
 
-
-def fusion(arr1: list, arr2: list):
-    newId = max(arr1[0], arr2[0])
-    S = arr1[1] + arr2[1]
-    S += countDivisors(S)
-    return [newId, S]
-
-
 def getBestScore(arr: list):
     arrLength = len(arr)
     # Sort arr by id
@@ -32,10 +24,11 @@ def getBestScore(arr: list):
             for k in range(i, j):
                 item1 = M[i][k]
                 item2 = M[k + 1][j]
-                newItem = fusion(item1, item2)
+                S = item1[1] + item2[1]
+                S += countDivisors(S)
                 # Redeclare max
-                if(newItem[1] >= maxItem[1]):
-                    maxItem = newItem
+                if(S >= maxItem[1]):
+                    maxItem = [max(item1[0], item2[0]), S]
 
             M[i][j] = maxItem
 
