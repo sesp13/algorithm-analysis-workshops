@@ -8,14 +8,9 @@ def getCabo(p: list):
 
     for i in range(arrLength):
         C[i][i] = p[i]
-        sumP[i][i] = p[i]
-
-    if(arrLength > 1):
-        for i in range(arrLength - 2, -1, -1):
-            for j in range(i + 1, arrLength):
-                item1 = sumP[i + 1][j]
-                item2 = sumP[i][i]
-                sumP[i][j] = item1 + item2
+        # Build sumP
+        for j in range(i, arrLength):
+            sumP[i][j] = sum(p[i:j+1])
 
     for nodos in range(1, arrLength):
         for i in range(arrLength - nodos):
@@ -23,7 +18,7 @@ def getCabo(p: list):
             lowest = math.inf
             for r in range(i, j):
                 item1 = C[i][r-1]
-                item1 = C[r+1][j]
+                item2 = C[r+1][j]
                 lowest = min(lowest, item1 + item2 + sumP[i][j])
 
             C[i][j] = lowest
