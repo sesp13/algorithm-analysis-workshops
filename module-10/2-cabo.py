@@ -12,9 +12,11 @@ def getCabo(p: list):
         for i in range(arrLength - nodos):
             j = i + nodos
             lowest = math.inf
-            for r in range(i, j):
-                item1 = C[i][r-1]
-                item2 = C[r+1][j]
+            for r in range(i, j + 1):
+                r1 = r - 1
+                r2 = r + 1
+                item1 = 0 if r1 < 0 else C[i][r1]
+                item2 = 0 if r2 >= arrLength else C[r2][j]
                 lowest = min(lowest, item1 + item2 + sum(p[i:j+1]))
 
             C[i][j] = lowest
