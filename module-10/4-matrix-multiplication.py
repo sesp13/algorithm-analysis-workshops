@@ -2,10 +2,6 @@ import math
 S = []
 result = ''
 
-# ((M1 x M2) x M3)
-# ['((', '(', '', '))((', '', ')', '))']
-
-
 def getParenthesis(i, j):
     global result
     if(i == j):
@@ -44,26 +40,21 @@ def getCorrectMultiplication(p: list):
     # Parenthesis
     result = ''
     getParenthesis(1, arrLength - 1)
-    resultArr = result.split('M')
-    resultLength = len(resultArr) - 1
+    # Split special cases
+    result = result.replace('MM', "M x M")
+    result = result.replace('M(', "M x (")
+    result = result.replace(')M', ") x M")
+    result = result.replace(')(', ") x (")
+    
+    # Build final
     final = ''
-    for i in range(resultLength):
-        nextIndex = i + 1
-        current = resultArr[i]
-        next = resultArr[nextIndex]
-        if(current == ''):
-            final += f'M{nextIndex}'
-            nextIndex += 1
-            if(next == '' or next[0] == '('):
-                final += f'{current}M{nextIndex} x '
+    resultArr = result.split('M')
+    lastIndex = len(resultArr) - 1
+    for i in range(len(resultArr)):
+        if(i != lastIndex):
+            final += f"{resultArr[i]}M{i + 1}"
         else:
-            if(next == '' or next[0] == '('):
-                final += f'{current}M{nextIndex} x '
-            else:
-                final += current
-
-    # Add last element
-    # final += f" x M{resultLength}{resultArr[-1]}"
+            final += resultArr[i]
 
     print(final)
 
