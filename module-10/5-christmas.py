@@ -1,14 +1,20 @@
 import math
 S = []
-p = []
+lights = []
 
 
 def buildTree(i, j, level: int = 0):
+    global S
+    global lights
+    
     root = S[i][j]
+
     if root < j:
         buildTree(root + 1, j, level + 1)
-        print('\t'*level + p[root][0])
-    else:
+
+    print('\t'*level + lights[root][0])
+
+    if i < root:
         buildTree(i, root - 1, level + 1)
 
 
@@ -20,14 +26,14 @@ def getSum(p):
 
 
 def getTree():
-    global p
+    global lights
     global S
-    arrLength = len(p)
+    arrLength = len(lights)
     C = [[[0, 0] for __ in range(arrLength)] for _ in range(arrLength)]
     S = [[0 for __ in range(arrLength)] for _ in range(arrLength)]
 
     for i in range(arrLength):
-        C[i][i] = p[i]
+        C[i][i] = lights[i]
 
     for nodos in range(1, arrLength):
         for i in range(arrLength - nodos):
@@ -38,7 +44,7 @@ def getTree():
                 r2 = r + 1
                 item1 = 0 if r1 < 0 else C[i][r1][1]
                 item2 = 0 if r2 >= arrLength else C[r2][j][1]
-                expr = item1 + item2 + getSum(p[i:j+1])
+                expr = item1 + item2 + getSum(lights[i:j+1])
                 if(expr < lowest):
                     lowest = expr
                     S[i][j] = r
@@ -49,7 +55,7 @@ def getTree():
 
 
 def main():
-    global p
+    global lights
 
     cases = int(input())
     finalArr = []
@@ -64,7 +70,7 @@ def main():
     finalIndex = len(finalArr) - 1
     for i in range(len(finalArr)):
         print(f"caso {i + 1}:")
-        p = finalArr[i]
+        lights = finalArr[i]
         getTree()
         if(i != finalIndex):
             print('')
