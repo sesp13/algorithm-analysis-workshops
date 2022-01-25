@@ -35,9 +35,9 @@ def getTree():
     for i in range(arrLength):
         C[i][i] = lights[i]
 
-    for nodos in range(1, arrLength):
-        for i in range(arrLength - nodos):
-            j = i + nodos
+    for nodos in range(1, arrLength + 1):
+        for i in range(arrLength - nodos + 1):
+            j = i + nodos - 1
             lowest = math.inf
             for r in range(i, j + 1):
                 r1 = r - 1
@@ -71,6 +71,7 @@ def main():
     for i in range(len(finalArr)):
         print(f"caso {i + 1}:")
         lights = finalArr[i]
+        lights.sort()
         getTree()
         if(i != finalIndex):
             print('')
