@@ -11,15 +11,17 @@ def getScore(level, rowNumber):
         return
     # Upgrade level
     level += 1
+    conectedNodes = []
     for i in range(1, graphLength):
         coordenate = graph[rowNumber][i]
         if(coordenate == 1):
-            if(globalLevels[str(i)] == 'INF'):
+            if(globalLevels[str(i)] == 'INF' or globalLevels[str(i)] > level):
                 # Update level
                 globalLevels[str(i)] = level
-                getScore(level, i)
-            elif(globalLevels[str(i)] > level):
-                globalLevels[str(i)] = level
+                conectedNodes.append(i)
+
+    for i in conectedNodes:
+        getScore(level, i)
 
 
 def getPauNumber(arr: object):
@@ -57,9 +59,11 @@ def main():
             "danceArr": danceArr
         })
 
-    for arr in finalArr:
-        print("--")
-        getPauNumber(arr)
+    for i in range(cases):
+        print(f"fiesta {i + 1}:")
+        getPauNumber(finalArr[i])
+        if(i != cases - 1):
+            print("")
 
 
 main()
