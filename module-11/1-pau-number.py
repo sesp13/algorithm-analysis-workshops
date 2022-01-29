@@ -1,8 +1,6 @@
 def getPauNumber(arr: object):
     # Reset global levels
     globalLevels = {}
-    # Sort dance
-    arr['danceArr'].sort()
 
     # Create dict structure
     for i in range(arr['people']):
@@ -32,10 +30,9 @@ def getPauNumber(arr: object):
         newNextLevels = []
         for index in nextLevelItems:
             node = globalLevels[index]
-            # Node is string in dictionary fill
+            # Set current levels
             if(node['level'] == 'INF'):
                 node['level'] = level
-
             # Add new next levels
             for newNode in node['related']:
                 if(newNode not in newNextLevels and globalLevels[newNode]['level'] == 'INF'):
@@ -61,9 +58,7 @@ def main():
         dances = int(partyArr[1])
         danceArr = []
         for __ in range(dances):
-            session = [int(x) for x in input().split()]
-            session.sort()
-            danceArr.append(session)
+            danceArr.append([int(x) for x in input().split()])
         finalArr.append({
             "people": people,
             "dances": dances,
