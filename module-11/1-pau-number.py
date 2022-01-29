@@ -2,33 +2,29 @@ graph = []
 globalLevels = {}
 
 
-def getScore(level, rowNumber):
+def getScore(node, level):
     global graph
     global globalLevels
 
-    graphLength = len(graph)
-    if(rowNumber > len(graph)):
-        return
-    # Upgrade level
+    # Add one level
     level += 1
-    conectedNodes = []
-    for column in range(1, graphLength):
-        coordenate = graph[rowNumber][column]
-        if(coordenate == 1 and globalLevels[str(column)] == 'INF'):
-            # Update level
-            globalLevels[str(column)] = level
-            conectedNodes.append(column)
+    if(globalLevels[str(node)]["explored"] == False):
+        # New node discovered
+        globalLevels[str(node)] = {
+            "explored": True,
+            "level": level
+        }
+        # Iterate in the pending nodes
+        for i in range(len(graph[node])):
+            coordenate = graph[node][i]
+            if(coordenate == 1):
+                getScore(i, level)
 
-    for selectedColumn in conectedNodes:
-        for row in range(1, graphLength):
-            # Perform vertical assignation
-            coordenate = graph[row][selectedColumn]
-            if(coordenate == 1 and globalLevels[str(row)] == 'INF'):
-                # Update level
-                globalLevels[str(row)] = level + 1
-
-        # Iterate in the rest of nodes
-        getScore(level, selectedColumn)
+    else:
+        # The node has been already used
+        # Check which level is lower
+        globalLevels[str(node)]["level"] = min(
+            level, globalLevels[str(node)]["level"])
 
 
 def getPauNumber(arr: object):
@@ -39,17 +35,22 @@ def getPauNumber(arr: object):
     # Reset global levels
     globalLevels = {}
 
-    for i in range(1, len(graph)):
-        globalLevels[str(i)] = 'INF'
+    for i in range(len(graph)):
+        globalLevels[str(i)] = {
+            "explored": False,
+            "level": 'INF'
+        }
 
     for position in arr['danceArr']:
         graph[position[0]][position[1]] = 1
+        graph[position[1]][position[0]] = 1
 
     # Set levels
-    getScore(0, 0)
+    getScore(0, -1)
 
     for key in globalLevels:
-        print(f"{key} {globalLevels[key]}")
+        if(key != "0"):
+            print(f"{key} {globalLevels[key]['level']}")
 
 
 def main():
