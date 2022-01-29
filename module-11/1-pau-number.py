@@ -12,16 +12,23 @@ def getScore(level, rowNumber):
     # Upgrade level
     level += 1
     conectedNodes = []
-    for i in range(1, graphLength):
-        coordenate = graph[rowNumber][i]
-        if(coordenate == 1):
-            if(globalLevels[str(i)] == 'INF' or globalLevels[str(i)] > level):
-                # Update level
-                globalLevels[str(i)] = level
-                conectedNodes.append(i)
+    for column in range(1, graphLength):
+        coordenate = graph[rowNumber][column]
+        if(coordenate == 1 and globalLevels[str(column)] == 'INF'):
+            # Update level
+            globalLevels[str(column)] = level
+            conectedNodes.append(column)
 
-    for i in conectedNodes:
-        getScore(level, i)
+    for selectedColumn in conectedNodes:
+        for row in range(1, graphLength):
+            # Perform vertical assignation
+            coordenate = graph[row][selectedColumn]
+            if(coordenate == 1 and globalLevels[str(row)] == 'INF'):
+                # Update level
+                globalLevels[str(row)] = level + 1
+
+        # Iterate in the rest of nodes
+        getScore(level, selectedColumn)
 
 
 def getPauNumber(arr: object):
@@ -29,6 +36,8 @@ def getPauNumber(arr: object):
     global globalLevels
     # Build a graph with this data
     graph = [[0 for __ in range(arr['people'])] for _ in range(arr['people'])]
+    # Reset global levels
+    globalLevels = {}
 
     for i in range(1, len(graph)):
         globalLevels[str(i)] = 'INF'
