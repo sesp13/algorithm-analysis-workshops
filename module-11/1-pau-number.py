@@ -1,52 +1,51 @@
-graph = []
-globalLevels = {}
-
-
-def getScore(node, level):
-    global graph
-    global globalLevels
-
-    # Add one level
-    level += 1
-    if(globalLevels[str(node)]["explored"] == False):
-        # New node discovered
-        globalLevels[str(node)] = {
-            "explored": True,
-            "level": level
-        }
-        # Iterate in the pending nodes
-        for i in range(len(graph[node])):
-            coordenate = graph[node][i]
-            if(coordenate == 1):
-                getScore(i, level)
-
-    else:
-        # The node has been already used
-        # Check which level is lower
-        globalLevels[str(node)]["level"] = min(
-            level, globalLevels[str(node)]["level"])
-
-
 def getPauNumber(arr: object):
-    global graph
-    global globalLevels
-    # Build a graph with this data
-    graph = [[0 for __ in range(arr['people'])] for _ in range(arr['people'])]
     # Reset global levels
     globalLevels = {}
+    # Sort dance
+    arr['danceArr'].sort()
 
-    for i in range(len(graph)):
+    # Create dict structure
+    for i in range(arr['people']):
         globalLevels[str(i)] = {
-            "explored": False,
-            "level": 'INF'
+            "level": 'INF',
+            "related": []
         }
 
-    for position in arr['danceArr']:
-        graph[position[0]][position[1]] = 1
-        graph[position[1]][position[0]] = 1
+    # Fill the dictionary with the relations
+    for dance in arr["danceArr"]:
+        related1 = globalLevels[str(dance[0])]['related']
+        # Add in current related
+        if(dance[1] not in related1):
+            related1.append(str(dance[1]))
 
-    # Set levels
-    getScore(0, -1)
+        # Also add it in the related node related array
+        related2 = globalLevels[str(dance[1])]['related']
+        if(dance[0] not in related2):
+            related2.append(str(dance[0]))
+
+    # Set base case
+    level = 1
+    nextLevelItems = globalLevels['0']['related']
+    globalLevels['0']['level'] = 0
+
+    while True:
+        newNextLevels = []
+        for index in nextLevelItems:
+            node = globalLevels[index]
+            # Node is string in dictionary fill
+            if(node['level'] == 'INF'):
+                node['level'] = level
+
+            # Add new next levels
+            for newNode in node['related']:
+                if(newNode not in newNextLevels and globalLevels[newNode]['level'] == 'INF'):
+                    newNextLevels.append(newNode)
+
+        if(len(newNextLevels) == 0):
+            break
+        else:
+            level += 1
+            nextLevelItems = newNextLevels
 
     for key in globalLevels:
         if(key != "0"):
@@ -62,7 +61,9 @@ def main():
         dances = int(partyArr[1])
         danceArr = []
         for __ in range(dances):
-            danceArr.append([int(x) for x in input().split()])
+            session = [int(x) for x in input().split()]
+            session.sort()
+            danceArr.append(session)
         finalArr.append({
             "people": people,
             "dances": dances,
