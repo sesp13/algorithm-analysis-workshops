@@ -6,15 +6,19 @@ def checkMembers(key):
     global currentGraph
     global currentFamily
 
-    if(currentGraph[key]['explored'] == True):
-        return
-    else:
-        currentGraph[key]['explored'] = True
-        if (key not in currentFamily):
-            currentFamily.append(key)
-        # Go on with the related
-        for newNode in currentGraph[key]['related']:
-            checkMembers(newNode)
+    register = [key]
+    while(len(register) != 0):
+        node = register.pop()
+        if(currentGraph[node]['explored'] == True):
+            continue
+        else:
+            currentGraph[node]['explored'] = True
+            if (node not in currentFamily):
+                currentFamily.append(node)
+            # Go on with related
+            for newNode in currentGraph[node]['related']:
+                if(currentGraph[newNode]['explored'] == False):
+                    register.append(newNode)
 
 
 def getInfo(graph: object):
@@ -62,7 +66,7 @@ def main():
             # Update related nodes in the graph
             related1 = graph[register[0]]['related']
             related2 = graph[register[1]]['related']
-            
+
             if(register[1] not in related1):
                 related1.append(register[1])
 
