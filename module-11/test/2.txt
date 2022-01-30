@@ -38,3 +38,15 @@
 3557 3760
 4580 9419...
 F
+
+Error de ejecución
+
+Detalles: Traceback (most recent call last): File "Main.py", 
+line 78, in main() File "Main.py", line 75, in main getInfo(graph) File "Main.py",
+ line 30, in getInfo checkMembers(key) File "Main.py",
+  line 17, in checkMembers checkMembers(newNode) File "Main.py",
+   line 17, in checkMembers checkMembers(newNode) File "Main.py",
+    line 17, in checkMembers checkMembers(newNode)
+     [Previous line repeated 993 more times] File "Main.py",
+      line 9, in checkMembers if(currentGraph[key][explored] == True):
+       RecursionError: maximum recursion depth exceeded in comparison
