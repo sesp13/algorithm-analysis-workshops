@@ -11,10 +11,9 @@ def getRumors(origin):
         return
 
     originNode['explored'] = True
-    maxDay = 0
     currentDay = 0
-    maxDayLength = 0
     register = [originNode]
+    dayGraph = {}
     while (len(register) > 0):
         currentNode = register.pop()
         currentDayLength = 0 if currentNode['day'] == currentDay else currentDayLength
@@ -26,18 +25,32 @@ def getRumors(origin):
                 currentDayLength += 1
                 nextNode['explored'] = True
                 nextNode['day'] = currentDay
+                
+                # Set day
+                if(dayGraph.get(currentDay) == None):
+                    dayGraph[currentDay] = 1
+                else:
+                    dayGraph[currentDay] += 1
+
+                # Update register
                 register.append(nextNode)
 
-        if(currentDayLength > maxDayLength):
-            maxDayLength = currentDayLength
-            maxDay = currentDay
+    # Select max days
+    maxDay = 0
+    maxDayLength = 0
+    for dayNumber in dayGraph:
+        dayLength = dayGraph[dayNumber]
+        if(dayLength > maxDayLength):
+            maxDay = dayNumber
+            maxDayLength = dayLength    
+        
 
     print(f'{maxDay} {maxDayLength}')
-
+    
     # Clean graph
-    for key in graph:
-        graph[key]['explored'] = False
-        graph[key]['day'] = 0
+    for dayNumber in graph:
+        graph[dayNumber]['explored'] = False
+        graph[dayNumber]['day'] = 0
 
 
 def main():
@@ -54,7 +67,7 @@ def main():
             "day": 0
         }
 
-    finalArr = [origin for origin in input().split(', ')]
+    finalArr = [origin for origin in input().strip().split(', ')]
 
     for origin in finalArr:
         getRumors(origin)
