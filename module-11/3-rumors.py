@@ -10,40 +10,34 @@ def getRumors(origin):
         print('0')
         return
 
-    # Begin with the interaction
     originNode['explored'] = True
-    days = [originNode['related']]
-    while True:
-        originNodes = []
-        # Get all valid new origin nodes
-        for node in days[-1]:
-            if(graph[node]['explored'] == False):
-                graph[node]['explored'] = True
-                if(node not in originNode):
-                    originNodes.append(node)
+    maxDay = 0
+    currentDay = 0
+    maxDayLength = 0
+    register = [originNode]
+    while (len(register) > 0):
+        currentNode = register.pop()
+        currentDayLength = 0 if currentNode['day'] == currentDay else currentDayLength
+        currentDay = currentNode['day'] + 1
 
-        # Build next day nodes
-        nextNodes = []
-        for node in originNodes:
-            for newNode in graph[node]['related']:
-                if(graph[newNode]['explored'] == False and newNode not in nextNodes):
-                    nextNodes.append(newNode)
+        for nodeId in currentNode['related']:
+            nextNode = graph[nodeId]
+            if(nextNode['explored'] == False):
+                currentDayLength += 1
+                nextNode['explored'] = True
+                nextNode['day'] = currentDay
+                register.append(nextNode)
 
-        if(nextNodes == []):
-            break
-        else:
-            days.append(nextNodes)
+        if(currentDayLength > maxDayLength):
+            maxDayLength = currentDayLength
+            maxDay = currentDay
 
-    maxDay = []
-    for day in days:
-        if(len(day) > len(maxDay)):
-            maxDay = day
-
-    print(f"{days.index(maxDay) + 1} {len(maxDay)}")
+    print(f'{maxDay} {maxDayLength}')
 
     # Clean graph
     for key in graph:
         graph[key]['explored'] = False
+        graph[key]['day'] = 0
 
 
 def main():
@@ -56,7 +50,8 @@ def main():
         relatedArr = [] if relatedArr[0] == '-1' else relatedArr
         graph[str(i)] = {
             "explored": False,
-            "related": relatedArr
+            "related": relatedArr,
+            "day": 0
         }
 
     finalArr = [origin for origin in input().split(', ')]
