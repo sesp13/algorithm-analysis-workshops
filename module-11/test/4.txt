@@ -1,0 +1,28 @@
+6
+maria pedro
+pedro susana
+susana maria
+pedro juan
+juan pedro
+susana camilo
+0
+//R 
+2
+
+
+4
+andres ana
+ana felipe
+felipe pilar
+pilar andres
+6
+maria pedro
+pedro susana
+susana maria
+pedro juan
+juan pedro
+susana camilo
+0
+// R 
+1
+2
