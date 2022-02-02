@@ -1,3 +1,6 @@
+import queue
+
+
 graph = {}
 
 
@@ -17,24 +20,26 @@ def getRumors(origin):
 
     originNode['explored'] = True
     originNode['day'] = 0
-    register = [originNode]
+    register = queue.Queue()
+    register.put(originNode)
     dayGraph = {}
-    while (len(register) > 0):
-        currentNode = register.pop()
+    while (not register.empty()):
+        currentNode = register.get()
         for nodeId in currentNode['related']:
             nextNode = graph[nodeId]
             if(nextNode['explored'] == False):
                 nextNode['explored'] = True
-                nextNode['day'] = currentNode['day'] + 1
+                nextDay =  currentNode['day'] + 1
+                nextNode['day'] = nextDay
 
                 # Set day
-                if(dayGraph.get(currentNode['day']) == None):
-                    dayGraph[currentNode['day']] = 1
+                if(dayGraph.get(nextDay) == None):
+                    dayGraph[nextDay] = 1
                 else:
-                    dayGraph[currentNode['day']] += 1
+                    dayGraph[nextDay] += 1
 
                 # Update register
-                register.append(nextNode)
+                register.put(nextNode)
 
     # Select max days
     maxDay = 0
@@ -45,7 +50,7 @@ def getRumors(origin):
             maxDay = dayNumber
             maxDayLength = dayLength
 
-    print(f'{maxDay + 1} {maxDayLength}')
+    print(f'{maxDay} {maxDayLength}')
 
 
 def main():
