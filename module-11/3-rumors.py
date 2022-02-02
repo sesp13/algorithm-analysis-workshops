@@ -1,11 +1,13 @@
-from collections import deque
-
-
 graph = {}
 
 
 def getRumors(origin):
     global graph
+
+    # Clean graph
+    for dayNumber in graph:
+        graph[dayNumber]['explored'] = False
+        graph[dayNumber]['day'] = 0
 
     originNode = graph[origin]
     # No people to tell the rumor
@@ -14,33 +16,36 @@ def getRumors(origin):
         return
 
     originNode['explored'] = True
-    maxDay = 0
-    currentDay = 0
-    maxDayLength = 0
-    register = deque([originNode])
+    originNode['day'] = 0
+    register = [originNode]
+    dayGraph = {}
     while (len(register) > 0):
         currentNode = register.pop()
-        currentDayLength = 0 if currentNode['day'] == currentDay else currentDayLength
-        currentDay = currentNode['day'] + 1
-
         for nodeId in currentNode['related']:
             nextNode = graph[nodeId]
             if(nextNode['explored'] == False):
-                currentDayLength += 1
                 nextNode['explored'] = True
-                nextNode['day'] = currentDay
+                nextNode['day'] = currentNode['day'] + 1
+
+                # Set day
+                if(dayGraph.get(currentNode['day']) == None):
+                    dayGraph[currentNode['day']] = 1
+                else:
+                    dayGraph[currentNode['day']] += 1
+
+                # Update register
                 register.append(nextNode)
 
-        if(currentDayLength > maxDayLength):
-            maxDayLength = currentDayLength
-            maxDay = currentDay
+    # Select max days
+    maxDay = 0
+    maxDayLength = 0
+    for dayNumber in dayGraph:
+        dayLength = dayGraph[dayNumber]
+        if(dayLength > maxDayLength):
+            maxDay = dayNumber
+            maxDayLength = dayLength
 
-    print(f'{maxDay} {maxDayLength}')
-
-    # Clean graph
-    for key in graph:
-        graph[key]['explored'] = False
-        graph[key]['day'] = 0
+    print(f'{maxDay + 1} {maxDayLength}')
 
 
 def main():
