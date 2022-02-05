@@ -67,6 +67,8 @@ def getLowestCost(matrix: list):
             nextSum = u[0] + costMatrix[nextNode[1][0]][nextNode[1][1]]
             if(nextSum < nextNode[0]):
                 nextNode[0] = nextSum
+                # Update distance matrix
+                distanceMatrix[nextNode[1][0]][nextNode[1][1]] = nextSum
                 heapq.heappush(pq, nextNode)
 
     print(distanceMatrix[-1][-1])
