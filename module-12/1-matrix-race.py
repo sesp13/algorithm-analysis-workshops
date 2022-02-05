@@ -20,10 +20,10 @@ def getRelations(i, j):
 
     relations = []
 
-    if(prevRow > 0):
+    if(prevRow >= 0):
         relations.append([distanceMatrix[prevRow][j], [prevRow, j]])
 
-    if(prevColumn > 0):
+    if(prevColumn >= 0):
         relations.append([distanceMatrix[i][prevColumn], [i, prevColumn]])
 
     if(nextRow < rows):
