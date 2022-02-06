@@ -3,13 +3,7 @@ import math
 
 
 def prim(allCoordenates: list):
-
-    # createCoordenates
-
-    # Set initial nodes
-    # Structure
-    # [cost, coordenates]
-
+    # Create base graph
     graph = {}
     firstCoordenates = allCoordenates.pop()
     graph['0'] = {
@@ -17,31 +11,31 @@ def prim(allCoordenates: list):
         "coord": firstCoordenates,
     }
 
+    # Set values for pq and pendingIds
     pq = [None for _ in range(len(allCoordenates))]
     pendingIds = []
-    # Set the rest of nodes
     for i in range(len(allCoordenates)):
         newId = i + 1
-        currentCoordenates = allCoordenates[i]
-        # Distance calculated from the coordenates
-        distance = math.dist(firstCoordenates, currentCoordenates)
+        currentCoordenate = allCoordenates[i]
+        # Get distance calculated from the coordenates
+        distance = math.dist(firstCoordenates, currentCoordenate)
         # Add node to the graph
         graph[newId] = {
             "distance": distance,
-            "coord": currentCoordenates,
+            "coord": currentCoordenate,
         }
         # Add node structure to pq
-        # Structure [distance, nodeId]
+        # Structure is [distance, nodeId]
         pq[i] = [distance, newId]
-        # Id to pending ids
+        # Add Id to pending ids
         pendingIds.append(newId)
 
     # Make pq a prority queue
     heapq.heapify(pq)
-
     totalLength = 0
 
     while(len(pendingIds) > 0):
+        # Get popped node
         u = heapq.heappop(pq)
         uId = u[1]
         uNode = graph[uId]
@@ -58,11 +52,12 @@ def prim(allCoordenates: list):
                 # Calc distance
                 distance = math.dist(uNode['coord'], vNode['coord'])
                 currentDistance = vNode['distance']
+                # Compare and push
                 if(distance < currentDistance):
                     vNode['distance'] = distance
                     heapq.heappush(pq, [distance, id])
 
-    print(totalLength)
+    print(round(totalLength, 1))
 
 
 def main():
@@ -72,7 +67,6 @@ def main():
         nodes = int(input())
         caseArr = []
         for __ in range(nodes):
-            # Add point
             caseArr.append([float(x) for x in input().split()])
         finalArr.append(caseArr)
 
