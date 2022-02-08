@@ -1,32 +1,32 @@
 import math
 
 
-def belmanFord(graph: object):
-    # Set first node values
+def belmanFord(element: list):
+    graph = element[0]
+    relations = element[1]
+
+    # Set first node value
     graph['0']['spd'] = 0
 
     # Set the other spds
-    for i in range(len(graph)):
-        currentNode = graph[str(i)]
-        # See the relations
-        for relation in currentNode['related']:
-            nextNode = graph[relation[0]]
-            currentSum = currentNode['spd'] + relation[1]
-            if(currentSum < nextNode['spd']):
-                nextNode['spd'] = currentSum
+    for _ in range(1, len(relations)):
+        for relation in relations:
+            originNode = graph[relation[0]]
+            destinyNode = graph[relation[1]]
+            cost = relation[2]
+            currentSum = originNode['spd'] + cost
+            if(currentSum < destinyNode['spd']):
+                destinyNode['spd'] = currentSum
 
     isPossible = False
 
-    for key in graph:
-        currentNode = graph[key]
-        # See relations
-        for relation in currentNode['related']:
-            nextNode = graph[relation[0]]
-            currentSum = currentNode['spd'] + relation[1]
-            if(currentSum < nextNode['spd']):
-                isPossible = True
-                break
-        if(isPossible):
+    for relation in relations:
+        originNode = graph[relation[0]]
+        destinyNode = graph[relation[1]]
+        cost = relation[2]
+        currentSum = originNode['spd'] + cost
+        if(currentSum < destinyNode['spd']):
+            isPossible = True
             break
 
     if(isPossible):
@@ -49,23 +49,20 @@ def main():
         for i in range(solarSystems):
             inputGraph[str(i)] = {
                 "spd": math.inf,
-                "related": []
             }
 
         # Create relations
+        relationsArr = []
         for __ in range(wormholes):
             relationArr = input().split()
-            origin = relationArr[0]
-            destiny = relationArr[1]
-            cost = int(relationArr[2])
-            # relations structure
-            # [destiny, cost]
-            inputGraph[origin]['related'].append([destiny, cost])
+            # Put as int the cost
+            relationArr[2] = int(relationArr[2])
+            relationsArr.append(relationArr)
 
-        finalArr.append(inputGraph)
+        finalArr.append([inputGraph, relationsArr])
 
-    for inputGraph in finalArr:
-        belmanFord(inputGraph)
+    for element in finalArr:
+        belmanFord(element)
 
 
 main()
