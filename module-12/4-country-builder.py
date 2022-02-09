@@ -1,3 +1,5 @@
+import heapq
+import math
 import queue
 
 # Global vars
@@ -30,19 +32,79 @@ def getSubGraph(nodeId):
     return subgraph
 
 
+def prim(subgraph: dict):
+    # Get keys
+    pendingIds = list(subgraph.keys())
+    # Get data from the first id
+    firstNode = subgraph[pendingIds[0]]
+    firstNode['distance'] = 0
+    # Remove first node form pending ids
+    del pendingIds[0]
+    # Set first values for the pq
+    pq = [None for _ in range(len(pendingIds))]
+    for i in range(len(pendingIds)):
+        nextId = pendingIds[i]
+        nextNode = subgraph[nextId]
+        distance = math.inf
+        for relation in firstNode['related']:
+            relationId = relation[1]
+            if(relationId == nextId):
+                distance = min(distance, relation[0])
+
+        nextNode['distance'] = distance
+        # Add info to the pq
+        pq[i] = [distance, nextId]
+
+    # Make pq a priority queue
+    heapq.heapify(pq)
+    totalSubgraph = 0
+
+    while(len(pendingIds) > 0):
+        u = heapq.heappop(pq)
+        uId = u[1]
+        uNode = subgraph[uId]
+
+        if(uId in pendingIds):
+            # Add u to used nodes
+            pendingIds.remove(uId)
+            # add the distance found
+            totalSubgraph += uNode['distance']
+            # See the relations of uNode
+            for relation in uNode['related']:
+                relationId = relation[1]
+                # Only do something if this node belongs to pending
+                if(relationId in pendingIds):
+                    vNode = subgraph[relationId]
+                    distance = relation[0]
+                    currentDistance = vNode['distance']
+                    if(distance < currentDistance):
+                        vNode['distance'] = distance
+
+    return totalSubgraph
+
+
 def getInfraestructure(arr: list):
     global globalGraph
 
+    # Input vars
     globalGraph = arr[0]
-    subGraphLst = []
+    airportCost = arr[1][2]
+
+    lstSubGraphs = []
 
     # Get different graphs
     for nodeId in globalGraph:
         currentNode = globalGraph[nodeId]
         if(currentNode['explored'] == False):
-            subGraphLst.append(getSubGraph(nodeId))
+            lstSubGraphs.append(getSubGraph(nodeId))
 
-    print("Hello World")
+    total = 0
+    for subgraph in lstSubGraphs:
+        total += prim(subgraph)
+
+    total += (len(lstSubGraphs) * airportCost)
+
+    print(f"{total} {len(lstSubGraphs)}")
 
 
 def main():
@@ -52,13 +114,13 @@ def main():
         inputArr = [int(x) for x in input().split()]
         cities = inputArr[0]
         possibleConnections = inputArr[1]
-        airportCost = inputArr[2]
 
         inputGraph = {}
         for i in range(1, cities + 1):
             inputGraph[str(i)] = {
                 "related": [],
                 "explored": False,
+                "distance": math.inf
             }
 
         for __ in range(possibleConnections):
