@@ -41,21 +41,17 @@ def prim(subgraph: dict):
     # Remove first node form pending ids
     del pendingIds[0]
     # Set first values for the pq
-    pq = [None for _ in range(len(pendingIds))]
-    for i in range(len(pendingIds)):
-        nextId = pendingIds[i]
-        nextNode = subgraph[nextId]
-        distance = math.inf
-        for relation in firstNode['related']:
-            relationId = relation[1]
-            if(relationId == nextId):
-                distance = min(distance, relation[0])
 
-        nextNode['distance'] = distance
-        # Add info to the pq
-        pq[i] = [distance, nextId]
+    # Set the first node relation's distances
+    for relation in firstNode['related']:
+        relationId = relation[1]
+        nextNode = subgraph[relationId]
+        distance = nextNode['distance']
+        nextNode['distance'] = min(distance, relation[0])
 
     # Make pq a priority queue
+    pq = [[subgraph[pendingIds[i]]['distance'], pendingIds[i]]
+          for i in range(len(pendingIds))]
     heapq.heapify(pq)
     totalSubgraph = 0
 
@@ -79,6 +75,8 @@ def prim(subgraph: dict):
                     currentDistance = vNode['distance']
                     if(distance < currentDistance):
                         vNode['distance'] = distance
+                        # Add vNode to pq
+                        heapq.heappush(pq, [distance, relationId])
 
     return totalSubgraph
 
